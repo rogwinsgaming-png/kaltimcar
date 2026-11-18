@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kaltim Cars - Kaltim Car Solution | Honda & Toyota Samarinda</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* Motif Latar Carbon Fiber Gelap (3D Twill Weave) */
+    .carbon-fiber-dark {
+      background-color: #0f1115;
+      background-image:
+        linear-gradient(27deg, #161920 5px, transparent 5px),
+        linear-gradient(207deg, #161920 5px, transparent 5px),
+        linear-gradient(27deg, #1e222b 5px, transparent 5px),
+        linear-gradient(207deg, #1e222b 5px, transparent 5px),
+        linear-gradient(90deg, #12151b 10px, transparent 10px),
+        linear-gradient(#12151b 25%, #0c0e12 25%, #0c0e12 50%, transparent 50%, transparent 75%, #191d24 75%, #191d24);
+      background-size: 20px 20px;
+      background-position: 0 0, 10px 0, 10px -10px, 0 10px, 0 0, 0 0;
+    }
+
+    /* Motif Latar Carbon Fiber Halaman Utama (Subtle Light Motorsport Weave) */
+    .carbon-fiber-light {
+      background-color: #eef1f5;
+      background-image:
+        linear-gradient(27deg, #e4e8ef 4px, transparent 4px),
+        linear-gradient(207deg, #e4e8ef 4px, transparent 4px),
+        linear-gradient(27deg, #f6f8fb 4px, transparent 4px),
+        linear-gradient(207deg, #f6f8fb 4px, transparent 4px),
+        linear-gradient(90deg, #eaeef4 8px, transparent 8px),
+        linear-gradient(#eaeef4 25%, #e2e6ee 25%, #e2e6ee 50%, transparent 50%, transparent 75%, #f3f5f9 75%, #f3f5f9);
+      background-size: 16px 16px;
+      background-position: 0 0, 8px 0, 8px -8px, 0 8px, 0 0, 0 0;
+    }
+
+    /* Aksen Panel Carbon Fiber */
+    .carbon-fiber-panel {
+      background-color: #14171d;
+      background-image:
+        radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 0),
+        radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 0);
+      background-size: 12px 12px;
+      background-position: 0 0, 6px 6px;
+    }
+
+    /* Animasi denyut halus untuk tombol WhatsApp */
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.7; }
+      70% { transform: scale(1.25); opacity: 0; }
+      100% { transform: scale(1.25); opacity: 0; }
+    }
+    .wa-pulse::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 9999px;
+      background-color: #10b981;
+      z-index: -1;
+      animation: pulse-ring 2s infinite;
+    }
+  </style>
+</head>
+<body class="carbon-fiber-light text-slate-800 antialiased min-h-screen flex flex-col">
+
+  <!-- Navigasi Utama (Carbon Fiber Dark) -->
+  <nav class="carbon-fiber-dark text-white border-b border-slate-800 sticky top-0 z-40 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3 cursor-pointer" onclick="switchView('catalog')">
+        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-red-600 to-red-800 border border-red-500/40 flex items-center justify-center font-extrabold text-white tracking-tighter text-base shadow-md">
+          KC
+        </div>
+        <div>
+          <div class="font-extrabold text-base sm:text-lg tracking-tight leading-none text-white">
+            KALTIM <span class="text-red-500">CARS</span>
+          </div>
+          <div class="text-[10px] text-slate-400 tracking-widest uppercase mt-0.5 font-semibold">
+            Kaltim Car Solution
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-1.5 sm:gap-2">
+        <button onclick="switchView('catalog')" id="btn-catalog" class="px-3 sm:px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-red-600 text-white transition shadow-sm">
+          Katalog Mobil
+        </button>
+        <button onclick="openSimModal()" class="px-3 sm:px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-lg text-amber-300 hover:bg-slate-800 border border-slate-700/80 transition">
+          Kalkulator Kredit
+        </button>
+        <button onclick="requestBackOfficeAccess()" id="btn-backoffice" class="px-3 sm:px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-lg text-slate-300 hover:bg-slate-800 transition flex items-center gap-1.5">
+          <svg id="lock-icon" class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          <span>Back Office</span>
+          <span id="badge-new-orders" class="hidden px-1.5 py-0.5 text-[10px] font-bold bg-red-600 text-white rounded-full">0</span>
+        </button>
+        <button onclick="contactAdminWA()" title="Hubungi Admin via WhatsApp" class="hidden lg:flex items-center gap-1.5 px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition shadow-sm">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
+          <span>Kontak Admin</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- VIEW 1: KATALOG PUBLIK & HERO BANNER OTOMOTIF -->
+  <main id="view-catalog" class="flex-1">
+    <!-- Hero Banner Otomotif Carbon Fiber -->
+    <section class="relative carbon-fiber-dark text-white overflow-hidden border-b border-slate-800">
+      <div id="custom-banner-bg" class="hidden absolute inset-0 bg-cover bg-center opacity-50"></div>
+
+      <div id="default-hero-art" class="absolute inset-0 pointer-events-none overflow-hidden">
+        <div class="absolute -top-24 -left-24 w-96 h-96 bg-red-600/20 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-24 right-10 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl"></div>
+        <svg class="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 1440 420" fill="none" preserveAspectRatio="xMidYMid slice">
+          <path d="M-100 340 L450 220 L1540 310" stroke="url(#speedRed)" stroke-width="2" />
+          <path d="M-100 360 L520 245 L1540 335" stroke="url(#speedGold)" stroke-width="1.5" />
+          <path d="M120 320 Q 320 130 520 320 M 520 320 Q 720 130 920 320 M 920 320 Q 1120 130 1320 320" stroke="#64748b" stroke-width="2.5" fill="none" />
+          <line x1="80" y1="320" x2="1360" y2="320" stroke="#94a3b8" stroke-width="3" />
+          <defs>
+            <linearGradient id="speedRed" x1="0" y1="0" x2="1440" y2="0" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#ef4444" stop-opacity="0" />
+              <stop offset="0.5" stop-color="#ef4444" />
+              <stop offset="1" stop-color="#ef4444" stop-opacity="0" />
+            </linearGradient>
+            <linearGradient id="speedGold" x1="0" y1="0" x2="1440" y2="0" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#f59e0b" stop-opacity="0" />
+              <stop offset="0.5" stop-color="#f59e0b" />
+              <stop offset="1" stop-color="#f59e0b" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div class="lg:col-span-7 space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-semibold text-amber-300 backdrop-blur-sm">
+            <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+            KALTIM CAR SOLUTION • OTR SAMARINDA & KALTIM
+          </div>
+          <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+            <span class="text-white">KALTIM</span> <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-amber-400 to-yellow-300">CARS</span>
+            <span class="block text-xl sm:text-3xl font-bold text-slate-200 mt-1">Honda & Toyota Samarinda</span>
+          </h1>
+          <p class="text-sm sm:text-base text-slate-300 max-w-xl leading-relaxed">
+            Kaltim Car Solution — pusat informasi harga OTR Samarinda terkini, ketersediaan unit <em>Ready Stock & Indent</em>, simulasi kredit transparan, serta pemesanan SPK online terhubung langsung dengan admin kami.
+          </p>
+
+          <!-- 4 TOMBOL FITUR INTERAKTIF (OTR SAMARINDA, READY & INDENT, CASH & KREDIT, RESPON CEPAT) -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
+            <button type="button" onclick="handleFeatureOtr()" class="text-left carbon-fiber-panel border border-slate-700/80 hover:border-amber-400/80 hover:bg-slate-800/80 rounded-xl p-3 transition transform hover:-translate-y-0.5 cursor-pointer group">
+              <div class="text-xs font-bold text-amber-400 flex items-center justify-between">
+                <span>OTR Samarinda</span>
+                <span class="text-[10px] opacity-70 group-hover:translate-x-0.5 transition">→</span>
+              </div>
+              <div class="text-[11px] text-slate-300 mt-0.5">Harga resmi terupdate</div>
+            </button>
+
+            <button type="button" onclick="openStockModal()" class="text-left carbon-fiber-panel border border-slate-700/80 hover:border-emerald-400/80 hover:bg-slate-800/80 rounded-xl p-3 transition transform hover:-translate-y-0.5 cursor-pointer group">
+              <div class="text-xs font-bold text-emerald-400 flex items-center justify-between">
+                <span>Ready & Indent</span>
+                <span class="text-[10px] opacity-70 group-hover:translate-x-0.5 transition">→</span>
+              </div>
+              <div class="text-[11px] text-slate-300 mt-0.5">Cek stok warna unit</div>
+            </button>
+
+            <button type="button" onclick="openSimModal()" class="text-left carbon-fiber-panel border border-slate-700/80 hover:border-red-400/80 hover:bg-slate-800/80 rounded-xl p-3 transition transform hover:-translate-y-0.5 cursor-pointer group">
+              <div class="text-xs font-bold text-red-400 flex items-center justify-between">
+                <span>Cash & Kredit</span>
+                <span class="text-[10px] opacity-70 group-hover:translate-x-0.5 transition">→</span>
+              </div>
+              <div class="text-[11px] text-slate-300 mt-0.5">DP ringan & tenor fleksibel</div>
+            </button>
+
+            <button type="button" onclick="contactAdminWA()" class="text-left carbon-fiber-panel border border-slate-700/80 hover:border-sky-400/80 hover:bg-slate-800/80 rounded-xl p-3 transition transform hover:-translate-y-0.5 cursor-pointer group">
+              <div class="text-xs font-bold text-sky-400 flex items-center justify-between">
+                <span>Respon Cepat</span>
+                <span class="text-[10px] opacity-70 group-hover:translate-x-0.5 transition">→</span>
+              </div>
+              <div class="text-[11px] text-slate-300 mt-0.5">Terhubung WA Admin</div>
+            </button>
+          </div>
+
+          <div class="flex flex-wrap gap-3 pt-2">
+            <a href="#katalog-section" class="px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white text-sm font-bold rounded-xl shadow-lg shadow-red-600/25 transition">
+              Lihat Daftar Harga & Unit
+            </a>
+            <button onclick="openSimModal()" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-amber-300 text-sm font-bold rounded-xl shadow-lg transition">
+              Kalkulator Kredit
+            </button>
+            <button onclick="contactAdminWA()" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-bold rounded-xl shadow-lg shadow-emerald-600/20 transition flex items-center gap-2">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
+              <span>Konsultasi Admin via WA</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Visual Dua Mobil Unggulan (Honda & Toyota) -->
+        <div class="lg:col-span-5 grid grid-cols-2 gap-3">
+          <div class="group relative rounded-2xl overflow-hidden border border-slate-700 carbon-fiber-panel shadow-xl">
+            <img src="https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&w=600&q=80" alt="Honda HR-V Merah" class="w-full h-44 sm:h-52 object-cover group-hover:scale-105 transition duration-500" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+            <div class="absolute bottom-3 left-3 right-3">
+              <span class="px-2 py-0.5 text-[10px] font-extrabold uppercase bg-red-600 text-white rounded">Honda</span>
+              <div class="text-sm font-bold text-white mt-1">All New HR-V</div>
+              <div class="text-[11px] text-slate-300">Sporty & Modern SUV</div>
+            </div>
+          </div>
+          <div class="group relative rounded-2xl overflow-hidden border border-slate-700 carbon-fiber-panel shadow-xl mt-4 sm:mt-6">
+            <img src="https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&w=600&q=80" alt="Toyota Innova Zenix Putih" class="w-full h-44 sm:h-52 object-cover group-hover:scale-105 transition duration-500" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+            <div class="absolute bottom-3 left-3 right-3">
+              <span class="px-2 py-0.5 text-[10px] font-extrabold uppercase bg-blue-600 text-white rounded">Toyota</span>
+              <div class="text-sm font-bold text-white mt-1">Innova Zenix</div>
+              <div class="text-[11px] text-slate-300">Comfort Family MPV</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bagian Katalog Produk & Filter -->
+    <section id="katalog-section" class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+      <div class="bg-white/95 backdrop-blur-sm border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-sm mb-8">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div>
+            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">Daftar Harga OTR Samarinda</h2>
+            <p class="text-xs sm:text-sm text-slate-500">Pilih merek Honda atau Toyota, hitung angsuran pada kalkulator kredit, atau ajukan SPK online.</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <!-- Pencarian -->
+            <div class="relative flex-1 sm:flex-initial">
+              <input type="text" id="search-car" oninput="renderCatalog()" placeholder="Cari model mobil..." class="w-full sm:w-44 pl-9 pr-3 py-2 text-sm border border-slate-300 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:border-slate-900" />
+              <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </div>
+
+            <!-- Filter Merek -->
+            <div class="flex gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200">
+              <button onclick="filterBrand('ALL')" class="brand-filter px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-900 text-white transition" data-brand="ALL">Semua</button>
+              <button onclick="filterBrand('Honda')" class="brand-filter px-3 py-1.5 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 transition" data-brand="Honda">Honda</button>
+              <button onclick="filterBrand('Toyota')" class="brand-filter px-3 py-1.5 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 transition" data-brand="Toyota">Toyota</button>
+            </div>
+
+            <!-- Filter Stok -->
+            <select id="filter-stock-public" onchange="renderCatalog()" class="px-3 py-2 text-xs font-bold border border-slate-300 rounded-xl bg-white text-slate-700">
+              <option value="ALL">Semua Stok</option>
+              <option value="Ready Stock">Ready Stock</option>
+              <option value="Indent">Indent</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid Kartu Mobil -->
+      <div id="car-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </section>
+  </main>
+
+  <!-- VIEW 2: BACK OFFICE ADMIN & SALES (TERPROTEKSI PASSWORD) -->
+  <section id="view-backoffice" class="hidden flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8">
+    <div class="carbon-fiber-dark text-white rounded-2xl p-6 mb-6 border border-slate-800 shadow-md flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div>
+        <div class="text-xs font-bold uppercase tracking-wider text-red-400">Dashboard Operasional Terproteksi</div>
+        <h2 class="text-2xl font-extrabold mt-0.5">Back Office — Kaltim Cars</h2>
+        <p class="text-xs sm:text-sm text-slate-400 mt-0.5">Kelola stok unit Honda & Toyota, harga OTR Samarinda, pesanan SPK, banner, dan nomor WhatsApp Admin.</p>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <button onclick="openWaSettingsModal()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-semibold rounded-xl transition">
+          Kontak WA Admin
+        </button>
+        <button onclick="openChangePasswordModal()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-amber-300 text-xs sm:text-sm font-semibold rounded-xl transition">
+          Ubah Password
+        </button>
+        <button onclick="openBannerModal()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white text-xs sm:text-sm font-semibold rounded-xl transition">
+          Grafis Banner
+        </button>
+        <button onclick="exportOrdersCSV()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white text-xs sm:text-sm font-semibold rounded-xl transition">
+          Export CSV
+        </button>
+        <button onclick="openCarFormModal()" class="px-4 py-2 bg-red-600 hover:bg-red-500 text-white text-xs sm:text-sm font-bold rounded-xl shadow transition">
+          + Tambah Unit Baru
+        </button>
+        <button onclick="logoutBackOffice()" class="px-3.5 py-2 bg-slate-900 hover:bg-red-950 border border-red-800/60 text-red-400 text-xs sm:text-sm font-bold rounded-xl transition">
+          Kunci / Keluar
+        </button>
+      </div>
+    </div>
+
+    <!-- KPI Ringkasan -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+        <div class="text-xs font-semibold text-slate-500 uppercase">Total Unit Katalog</div>
+        <div id="stat-cars" class="text-2xl font-extrabold text-slate-900 mt-1">0</div>
+        <div id="stat-brand-split" class="text-xs text-slate-400 mt-1">0 Honda • 0 Toyota</div>
+      </div>
+      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+        <div class="text-xs font-semibold text-slate-500 uppercase">Total Pemesanan SPK</div>
+        <div id="stat-orders" class="text-2xl font-extrabold text-slate-900 mt-1">0</div>
+        <div id="stat-new-orders" class="text-xs text-red-600 font-semibold mt-1">0 Pesanan Baru</div>
+      </div>
+      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+        <div class="text-xs font-semibold text-slate-500 uppercase">Estimasi Omzet Pesanan</div>
+        <div id="stat-revenue" class="text-xl sm:text-2xl font-extrabold text-emerald-600 mt-1">Rp 0</div>
+        <div class="text-xs text-slate-400 mt-1">Akumulasi nilai unit OTR</div>
+      </div>
+      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+        <div class="text-xs font-semibold text-slate-500 uppercase">Admin WhatsApp Aktif</div>
+        <div id="stat-wa-name" class="text-base font-extrabold text-slate-900 mt-1 truncate">Admin Kaltim Cars</div>
+        <div id="stat-wa-number" class="text-xs text-emerald-600 font-semibold mt-1">628125550199</div>
+      </div>
+    </div>
+
+    <!-- Tabel Pemesanan Masuk (Pipeline SPK) -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-8">
+      <div class="px-5 py-4 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-slate-50/70">
+        <div>
+          <h3 class="font-bold text-slate-900">Data Pemesanan Masuk (SPK Online)</h3>
+          <p class="text-xs text-slate-500">Ubah status follow-up atau hubungi calon pembeli langsung via WhatsApp.</p>
+        </div>
+        <select id="filter-order-status" onchange="renderBackOffice()" class="text-xs border border-slate-300 rounded-lg px-3 py-1.5 bg-white">
+          <option value="ALL">Semua Status</option>
+          <option value="Baru Masuk">Baru Masuk</option>
+          <option value="Follow-up Sales">Follow-up Sales</option>
+          <option value="Proses Leasing">Proses Leasing</option>
+          <option value="SPK Deal">SPK Deal</option>
+          <option value="Selesai / Delivery">Selesai / Delivery</option>
+          <option value="Batal">Batal</option>
+        </select>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-slate-50 text-slate-500 text-xs uppercase border-b border-slate-200">
+            <tr>
+              <th class="px-4 py-3">Kode & Tanggal</th>
+              <th class="px-4 py-3">Data Pemesan</th>
+              <th class="px-4 py-3">Unit & Warna</th>
+              <th class="px-4 py-3">Pembayaran</th>
+              <th class="px-4 py-3">Status Pipeline</th>
+              <th class="px-4 py-3 text-right">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="order-table-body" class="divide-y divide-slate-100"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tabel Manajemen Produk & Harga OTR -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+      <div class="px-5 py-4 border-b border-slate-200 bg-slate-50/70">
+        <h3 class="font-bold text-slate-900">Manajemen Produk, Foto & Harga OTR Samarinda</h3>
+        <p class="text-xs text-slate-500">Edit harga OTR, ubah status stok, atau perbarui gambar unit mobil.</p>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-slate-50 text-slate-500 text-xs uppercase border-b border-slate-200">
+            <tr>
+              <th class="px-4 py-3">Unit Mobil</th>
+              <th class="px-4 py-3">Merek & Tipe</th>
+              <th class="px-4 py-3">Harga OTR Samarinda</th>
+              <th class="px-4 py-3">Status Stok</th>
+              <th class="px-4 py-3 text-right">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="car-table-body" class="divide-y divide-slate-100"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Carbon Fiber -->
+  <footer class="carbon-fiber-dark text-slate-400 border-t border-slate-800 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+      <div>
+        <span class="font-bold text-white">KALTIM CARS</span> — <span class="text-red-400 font-semibold">Kaltim Car Solution</span> • Samarinda, Kalimantan Timur
+      </div>
+      <div class="flex items-center gap-4">
+        <button onclick="openSimModal()" class="text-amber-400 hover:text-amber-300 font-semibold">Kalkulator Kredit</button>
+        <button onclick="contactAdminWA()" class="text-emerald-400 hover:text-emerald-300 font-semibold">WhatsApp Admin</button>
+        <button onclick="requestBackOfficeAccess()" class="hover:text-white">Akses Back Office</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING BUTTON KONTAK ADMIN WHATSAPP -->
+  <button onclick="contactAdminWA()" class="wa-pulse fixed bottom-5 right-5 z-40 flex items-center gap-2.5 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-3 rounded-full shadow-2xl border border-emerald-400/40 transition transform hover:scale-105">
+    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
+    <span class="text-xs sm:text-sm font-bold tracking-tight">Kontak Admin</span>
+  </button>
+
+  <!-- MODAL LOGIN PASSWORD BACK OFFICE -->
+  <div id="login-modal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl max-w-sm w-full overflow-hidden shadow-2xl border border-slate-200">
+      <div class="carbon-fiber-dark text-white px-6 py-4 flex items-center justify-between">
+        <div>
+          <div class="text-[11px] font-bold uppercase text-amber-400">Keamanan Akses Admin</div>
+          <h3 class="text-base font-extrabold mt-0.5">Login Back Office</h3>
+        </div>
+        <button onclick="closeLoginModal()" class="text-slate-400 hover:text-white text-xl">&times;</button>
+      </div>
+      <form onsubmit="verifyBackOfficePassword(event)" class="p-6 space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1.5">Masukkan Password Back Office</label>
+          <input type="password" id="bo-password-input" required placeholder="••••" class="w-full border border-slate-300 rounded-xl px-3.5 py-2.5 text-center text-lg font-bold tracking-widest focus:outline-none focus:border-red-600" />
+          <p id="login-error-msg" class="hidden text-xs text-red-600 font-semibold mt-1.5">Password salah. Silakan coba lagi.</p>
+        </div>
+        <div class="flex gap-2">
+          <button type="button" onclick="closeLoginModal()" class="flex-1 py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl">Batal</button>
+          <button type="submit" class="flex-1 py-2.5 text-xs font-bold bg-red-600 hover:bg-red-500 text-white rounded-xl shadow">Masuk Back Office</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL UBAH PASSWORD BACK OFFICE -->
+  <div id="change-pass-modal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl max-w-sm w-full overflow-hidden shadow-2xl border border-slate-200">
+      <div class="carbon-fiber-dark text-white px-6 py-4 flex items-center justify-between">
+        <h3 class="text-base font-extrabold">Ubah Password Back Office</h3>
+        <button onclick="closeChangePasswordModal()" class="text-slate-400 hover:text-white text-xl">&times;</button>
+      </div>
+      <form onsubmit="saveNewPassword(event)" class="p-6 space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Password Baru</label>
+          <input type="password" id="new-bo-pass" required minlength="4" placeholder="Minimal 4 karakter" class="w-full border border-slate-300 rounded-xl px-3.5 py-2 text-sm font-bold" />
+        </div>
+        <div class="flex gap-2">
+          <button type="button" onclick="closeChangePasswordModal()" class="flex-1 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl">Batal</button>
+          <button type="submit" class="flex-1 py-2 text-xs font-bold bg-slate-900 text-white rounded-xl">Simpan Password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL CEK STOK & WARNA UNIT (TOMBOL READY & INDENT) -->
+  <div id="stock-modal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl border border-slate-200">
+      <div class="carbon-fiber-dark text-white px-6 py-4 flex items-center justify-between">
+        <div>
+          <div class="text-[11px] font-bold uppercase text-emerald-400">Ketersediaan Unit Samarinda</div>
+          <h3 class="text-base font-extrabold mt-0.5">Status Ready Stock & Indent</h3>
+        </div>
+        <button onclick="closeStockModal()" class="text-slate-400 hover:text-white text-xl">&times;</button>
+      </div>
+      <div class="p-6 max-h-[75vh] overflow-y-auto space-y-3">
+        <div id="stock-list-container" class="divide-y divide-slate-100 border border-slate-200 rounded-xl overflow-hidden"></div>
+        <div class="flex flex-wrap justify-between items-center gap-2 pt-2">
+          <button onclick="applyStockFilterFromModal('Ready Stock')" class="px-4 py-2 text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl">Tampilkan Ready Stock di Katalog</button>
+          <button onclick="closeStockModal()" class="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl">Tutup</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL FORMULIR PEMESANAN SPK PELANGGAN -->
+  <div id="order-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-slate-200">
+      <div class="carbon-fiber-dark text-white px-6 py-4 flex items-center justify-between">
+        <div>
+          <div class="text-[11px] font-bold uppercase text-red-400">Formulir Pemesanan SPK Online</div>
+          <h3 id="modal-car-title" class="text-base font-extrabold mt-0.5"></h3>
+        </div>
+        <button onclick="closeOrderModal()" class="text-slate-400 hover:text-white text-xl leading-none">&times;</button>
+      </div>
+      <form id="order-form" onsubmit="submitOrder(event, false)" class="p-6 space-y-3.5 max-h-[85vh] overflow-y-auto">
+        <input type="hidden" id="order-car-id" />
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Nama Lengkap (Sesuai KTP) *</label>
+            <input type="text" id="cust-name" required placeholder="Contoh: Budi Santoso" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Nomor WhatsApp Aktif *</label>
+            <input type="tel" id="cust-phone" required placeholder="0812xxxxxxxx" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Alamat Domisili (Samarinda / Kaltim) *</label>
+          <input type="text" id="cust-address" required placeholder="Kecamatan / Jalan di Samarinda" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Pilihan Warna</label>
+            <select id="cust-color" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm">
+              <option value="Putih (Platinum White)">Putih (Platinum White)</option>
+              <option value="Hitam (Crystal Black)">Hitam (Crystal Black)</option>
+              <option value="Silver Metallic">Silver Metallic</option>
+              <option value="Merah (Ignite Red)">Merah (Ignite Red)</option>
+              <option value="Abu-abu (Meteoroid Gray)">Abu-abu (Meteoroid Gray)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Metode Pembayaran</label>
+            <select id="cust-payment" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm">
+              <option value="Kredit / Leasing">Kredit / Leasing</option>
+              <option value="Cash / Tunai">Cash / Tunai</option>
+              <option value="Tukar Tambah (Trade-In)">Tukar Tambah (Trade-In)</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Catatan Tambahan (Opsional)</label>
+          <input type="text" id="cust-notes" placeholder="Misal: Jadwal test drive atau simulasi DP tertentu" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm" />
+        </div>
+        <div class="flex flex-col sm:flex-row justify-end gap-2 pt-3 border-t border-slate-100">
+          <button type="button" onclick="closeOrderModal()" class="px-4 py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl">Batal</button>
+          <button type="submit" class="px-4 py-2.5 text-xs font-bold bg-slate-900 hover:bg-slate-800 text-white rounded-xl">Simpan Pesanan</button>
+          <button type="button" onclick="submitOrderAndWA()" class="px-4 py-2.5 text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl flex items-center justify-center gap-1.5">
+            <span>Simpan & Konfirmasi WA</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL KALKULATOR KREDIT LENGKAP -->
+  <div id="sim-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-slate-200">
+      <div class="carbon-fiber-dark text-white px-6 py-4 flex items-center justify-between">
+        <div>
+          <div class="text-[11px] font-bold uppercase text-amber-400">Simulasi Angsuran Kaltim Cars</div>
+          <h3 class="text-base font-extrabold mt-0.5">Kalkulator Kredit Mobil</h3>
+        </div>
+        <button onclick="closeSimModal()" class="text-slate-400 hover:text-white text-xl">&times;</button>
+      </div>
+      <div class="p-6 space-y-4 max-h-[85vh] overflow-y-auto">
+        <!-- Pilih Unit dari Katalog -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Pilih Unit Kendaraan (atau Isi Harga Manual)</label>
+          <select id="sim-car-select" onchange="onSimCarChange()" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm font-semibold bg-slate-50"></select>
+        </div>
+
+        <!-- Harga OTR -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Harga OTR Samarinda (Rp)</label>
+          <input type="number" id="sim-price" oninput="calculateSimulation()" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm font-extrabold text-slate-900" />
+        </div>
+
+        <!-- Slider Uang Muka (DP) -->
+        <div>
+          <div class="flex justify-between text-xs font-bold text-slate-700 mb-1">
+            <span>Uang Muka (DP): <span id="sim-dp-percent" class="text-red-600">20%</span></span>
+            <span id="sim-dp-nominal" class="text-slate-900">Rp 0</span>
+          </div>
+          <input type="range" id="sim-dp-range" min="15" max="60" step="5" value="20" oninput="calculateSimulation()" class="w-full accent-red-600" />
+        </div>
+
+        <!-- Tenor & Suku Bunga -->
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Tenor Cicilan</label>
+            <select id="sim-tenor" onchange="calculateSimulation()" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm font-semibold">
+              <option value="1">1 Tahun (12 Bulan)</option>
+              <option value="2">2 Tahun (24 Bulan)</option>
+              <option value="3">3 Tahun (36 Bulan)</option>
+              <option value="4">4 Tahun (48 Bulan)</option>
+              <option value="5" selected>5 Tahun (60 Bulan)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Estimasi Bunga / Thn (%)</label>
+            <input type="number" id="sim-rate" step="0.5" value="6.5" oninput="calculateSimulation()" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm font-semibold" />
+          </div>
+        </div>
+
+        <!-- Hasil Perhitungan -->
+        <div class="carbon-fiber-panel text-white p-4 rounded-xl border border-slate-700 space-y-2">
+          <div class="flex justify-between text-xs text-slate-400">
+            <span>Pokok Hutang Kredit</span>
+            <span id="sim-principal" class="font-bold text-slate-200">Rp 0</span>
+          </div>
+          <div class="border-t border-slate-700/80 pt-2 text-center">
+            <div class="text-xs text-slate-400">Estimasi Angsuran per Bulan</div>
+            <div id="sim-monthly" class="text-2xl font-extrabold text-amber-400 mt-0.5">Rp 0</div>
+          </div>
+          <div class="text-[10px] text-slate-400 text-center">*Perhitungan estimasi flat; hubungi admin untuk hitungan leasing & promo DP resmi.</div>
+        </div>
+
+        <div class="flex gap-2">
+          <button onclick="closeSimModal()" class="flex-1 py-2.5 text-xs font-bold border border-slate-300 rounded-xl hover:bg-slate-50">Tutup</button>
+          <button onclick="askSimViaWA()" class="flex-1 py-2.5 text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl">Kirim Hitungan ke WA</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL EDIT / TAMBAH THUMBNAIL PRODUK (HANYA DI BACK OFFICE) -->
+  <div id="car-form-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-2xl border border-slate-200">
+      <div class="carbon-fiber-dark text-white px-6 py-4 flex items-center justify-between">
+        <div>
+          <div class="text-[11px] font-bold uppercase text-amber-400">Thumbnail & Spesifikasi Produk</div>
+          <h3 id="car-modal-title" class="text-base font-extrabold mt-0.5">Edit Produk Kendaraan</h3>
+        </div>
+        <button onclick="closeCarFormModal()" class="text-slate-400 hover:text-white text-xl">&times;</button>
+      </div>
+      <form onsubmit="submitCarForm(event)" class="p-6 space-y-4 max-h-[85vh] overflow-y-auto">
+        <input type="hidden" id="edit-car-id" />
+
+        <!-- Live Preview Thumbnail Foto Kendaraan + Upload -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1.5">Foto Thumbnail Kendaraan</label>
+          <div class="relative h-44 rounded-xl overflow-hidden bg-slate-900 border border-slate-300 group">
+            <img id="car-preview-img" src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=800&q=80" alt="Preview Kendaraan" class="w-full h-full object-cover" />
+            <label for="car-file-input" class="absolute inset-0 bg-black/50 hover:bg-black/65 transition flex flex-col items-center justify-center text-white cursor-pointer">
+              <svg class="w-7 h-7 mb-1 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              <span class="text-xs font-bold">Klik untuk Upload Foto Kendaraan</span>
+              <span class="text-[10px] text-slate-300 mt-0.5">JPG, PNG, WEBP</span>
+            </label>
+            <input id="car-file-input" type="file" accept="image/*" onchange="handleCarImageUpload(event)" class="hidden" />
+          </div>
+          <input type="text" id="car-image-url" oninput="updatePreviewFromUrl(this.value)" placeholder="Atau tempel link URL foto mobil (https://...)" class="mt-2 w-full border border-slate-300 rounded-xl px-3 py-1.5 text-xs text-slate-600" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Merek Kendaraan *</label>
+            <select id="car-brand" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm font-semibold">
+              <option value="Honda">Honda</option>
+              <option value="Toyota">Toyota</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Kategori Bodi</label>
+            <select id="car-category" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm">
+              <option value="SUV">SUV</option>
+              <option value="MPV">MPV</option>
+              <option value="Hatchback">Hatchback</option>
+              <option value="Sedan">Sedan</option>
+              <option value="Niaga">Niaga</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Tipe & Varian Kendaraan *</label>
+          <input type="text" id="car-name" required placeholder="Contoh: Honda HR-V SE CVT / Toyota Avanza 1.5 G" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm font-semibold" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Harga OTR Samarinda (Rp) *</label>
+            <input type="number" id="car-price" required placeholder="415000000" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm font-bold text-slate-900" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Status Ketersediaan</label>
+            <select id="car-stock" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm">
+              <option value="Ready Stock">Ready Stock</option>
+              <option value="Indent">Indent</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="flex justify-end gap-2 pt-3 border-t border-slate-100">
+          <button type="button" onclick="closeCarFormModal()" class="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl">Batal</button>
+          <button type="submit" class="px-5 py-2 text-xs font-bold bg-red-600 hover:bg-red-500 text-white rounded-xl shadow">Simpan Perubahan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL PENGATURAN WHATSAPP ADMIN (BACK OFFICE) -->
+  <div id="wa-settings-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-2xl">
+      <div class="carbon-fiber-dark text-white px-6 py-4 flex items-center justify-between">
+        <h3 class="text-base font-extrabold">Pengaturan Kontak WhatsApp Admin</h3>
+        <button onclick="closeWaSettingsModal()" class="text-slate-400 hover:text-white text-xl">&times;</button>
+      </div>
+      <form onsubmit="saveWaSettings(event)" class="p-6 space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Nama PIC / Admin Sales</label>
+          <input type="text" id="input-wa-name" required class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Nomor WhatsApp (Format 628...)</label>
+          <input type="text" id="input-wa-number" required placeholder="628125550199" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm" />
+          <p class="text-[11px] text-slate-400 mt-1">Gunakan kode negara 62 di depan (contoh: 6281234567890).</p>
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeWaSettingsModal()" class="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl">Batal</button>
+          <button type="submit" class="px-4 py-2 text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl">Simpan Kontak WA</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL PENGATURAN GRAFIS BANNER (BACK OFFICE) -->
+  <div id="banner-modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-2xl">
+      <div class="carbon-fiber-dark text-white px-6 py-4 flex items-center justify-between">
+        <h3 class="text-base font-extrabold">Pengaturan Grafis Hero Banner</h3>
+        <button onclick="closeBannerModal()" class="text-slate-400 hover:text-white text-xl">&times;</button>
+      </div>
+      <div class="p-6 space-y-4">
+        <p class="text-xs text-slate-600">Unggah gambar banner promosi kustom untuk mengganti latar grafis bawaan, atau kembalikan ke desain carbon fiber otomotif standar.</p>
+        <input type="file" accept="image/*" onchange="handleBannerUpload(event)" class="text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-slate-900 file:text-white" />
+        <div class="flex justify-between pt-3 border-t border-slate-100">
+          <button type="button" onclick="resetBanner()" class="px-3.5 py-2 text-xs font-bold text-red-600 hover:bg-red-50 rounded-xl">Reset Default Carbon</button>
+          <button type="button" onclick="closeBannerModal()" class="px-4 py-2 text-xs font-bold bg-slate-900 text-white rounded-xl">Selesai</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const fallbackCarImg = 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=800&q=80';
+
+    const defaultCars = [
+      {
+        id: 101,
+        brand: 'Honda',
+        category: 'Hatchback',
+        name: 'Honda Brio Satya E CVT',
+        price: 215500000,
+        stock: 'Ready Stock',
+        image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=800&q=80'
+      },
+      {
+        id: 102,
+        brand: 'Honda',
+        category: 'SUV',
+        name: 'Honda HR-V SE CVT',
+        price: 438000000,
+        stock: 'Ready Stock',
+        image: 'https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&w=800&q=80'
+      },
+      {
+        id: 103,
+        brand: 'Honda',
+        category: 'SUV',
+        name: 'Honda WR-V RS CVT',
+        price: 332000000,
+        stock: 'Ready Stock',
+        image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80'
+      },
+      {
+        id: 201,
+        brand: 'Toyota',
+        category: 'MPV',
+        name: 'Toyota Avanza 1.5 G CVT',
+        price: 294500000,
+        stock: 'Ready Stock',
+        image: 'https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=800&q=80'
+      },
+      {
+        id: 202,
+        brand: 'Toyota',
+        category: 'MPV',
+        name: 'Toyota Kijang Innova Zenix 2.0 G',
+        price: 462000000,
+        stock: 'Indent',
+        image: 'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&w=800&q=80'
+      },
+      {
+        id: 203,
+        brand: 'Toyota',
+        category: 'SUV',
+        name: 'Toyota Rush 1.5 S AT GR Sport',
+        price: 326000000,
+        stock: 'Ready Stock',
+        image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80'
+      }
+    ];
+
+    let cars = JSON.parse(localStorage.getItem('kaltim_cars_units')) || defaultCars;
+    let orders = JSON.parse(localStorage.getItem('kaltim_cars_orders')) || [];
+    let waConfig = JSON.parse(localStorage.getItem('kaltim_cars_wa')) || {
+      name: 'Admin Kaltim Cars',
+      number: '628125550199'
+    };
+    let customBanner = localStorage.getItem('kaltim_cars_banner') || '';
+    let backOfficePassword = localStorage.getItem('kaltim_cars_bo_pass') || '1234';
+    let isBackOfficeAuthenticated = sessionStorage.getItem('kaltim_cars_bo_auth') === 'true';
+    let currentFilter = 'ALL';
+
+    const formatRupiah = (num) => new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      maximumFractionDigits: 0
+    }).format(num);
+
+    function persistState() {
+      try {
+        localStorage.setItem('kaltim_cars_units', JSON.stringify(cars));
+        localStorage.setItem('kaltim_cars_orders', JSON.stringify(orders));
+        localStorage.setItem('kaltim_cars_wa', JSON.stringify(waConfig));
+      } catch (err) {
+        alert('Ukuran foto terlalu besar untuk penyimpanan browser. Gunakan foto dengan ukuran lebih kecil.');
+      }
+      renderAll();
+    }
+
+    // Autentikasi & Navigasi Back Office (Password Default: 1234)
+    function requestBackOfficeAccess() {
+      if (isBackOfficeAuthenticated) {
+        switchView('backoffice');
+      } else {
+        document.getElementById('bo-password-input').value = '';
+        document.getElementById('login-error-msg').classList.add('hidden');
+        document.getElementById('login-modal').classList.remove('hidden');
+        setTimeout(() => document.getElementById('bo-password-input').focus(), 100);
+      }
+    }
+
+    function closeLoginModal() {
+      document.getElementById('login-modal').classList.add('hidden');
+    }
+
+    function verifyBackOfficePassword(e) {
+      e.preventDefault();
+      const entered = document.getElementById('bo-password-input').value;
+      if (entered === backOfficePassword) {
+        isBackOfficeAuthenticated = true;
+        sessionStorage.setItem('kaltim_cars_bo_auth', 'true');
+        closeLoginModal();
+        switchView('backoffice');
+      } else {
+        document.getElementById('login-error-msg').classList.remove('hidden');
+      }
+    }
+
+    function logoutBackOffice() {
+      isBackOfficeAuthenticated = false;
+      sessionStorage.removeItem('kaltim_cars_bo_auth');
+      switchView('catalog');
+    }
+
+    function openChangePasswordModal() {
+      document.getElementById('new-bo-pass').value = '';
+      document.getElementById('change-pass-modal').classList.remove('hidden');
+    }
+
+    function closeChangePasswordModal() {
+      document.getElementById('change-pass-modal').classList.add('hidden');
+    }
+
+    function saveNewPassword(e) {
+      e.preventDefault();
+      const newPass = document.getElementById('new-bo-pass').value.trim();
+      if (newPass.length < 4) return;
+      backOfficePassword = newPass;
+      localStorage.setItem('kaltim_cars_bo_pass', newPass);
+      closeChangePasswordModal();
+      alert('Password Back Office berhasil diperbarui.');
+    }
+
+    function switchView(view) {
+      if (view === 'backoffice' && !isBackOfficeAuthenticated) {
+        requestBackOfficeAccess();
+        return;
+      }
+
+      document.getElementById('view-catalog').classList.toggle('hidden', view !== 'catalog');
+      document.getElementById('view-backoffice').classList.toggle('hidden', view !== 'backoffice');
+
+      document.getElementById('btn-catalog').className = view === 'catalog'
+        ? 'px-3 sm:px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-red-600 text-white transition shadow-sm'
+        : 'px-3 sm:px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-lg text-slate-300 hover:bg-slate-800 transition';
+
+      document.getElementById('btn-backoffice').className = view === 'backoffice'
+        ? 'px-3 sm:px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-red-600 text-white transition shadow-sm flex items-center gap-1.5'
+        : 'px-3 sm:px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-lg text-slate-300 hover:bg-slate-800 transition flex items-center gap-1.5';
+
+      renderAll();
+    }
+
+    // Fungsi Tombol 1: OTR Samarinda
+    function handleFeatureOtr() {
+      filterBrand('ALL');
+      document.getElementById('filter-stock-public').value = 'ALL';
+      renderCatalog();
+      document.getElementById('katalog-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Fungsi Tombol 2: Ready & Indent (Cek Stok Warna Unit)
+    function openStockModal() {
+      const container = document.getElementById('stock-list-container');
+      container.innerHTML = cars.map(c => `
+        <div class="p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-white hover:bg-slate-50">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 text-[10px] font-extrabold uppercase rounded ${c.brand === 'Honda' ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'}">${c.brand}</span>
+              <span class="font-bold text-sm text-slate-900">${c.name}</span>
+            </div>
+            <div class="text-xs text-slate-500 mt-0.5">OTR Samarinda: <strong>${formatRupiah(c.price)}</strong> • Pilihan Warna: Putih, Hitam, Silver, Merah</div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 text-[11px] font-bold rounded-lg ${c.stock === 'Ready Stock' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-800'}">${c.stock}</span>
+            <button onclick="closeStockModal(); askUnitWA(${c.id});" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold rounded-lg">Cek Warna WA</button>
+          </div>
+        </div>
+      `).join('');
+      document.getElementById('stock-modal').classList.remove('hidden');
+    }
+
+    function closeStockModal() {
+      document.getElementById('stock-modal').classList.add('hidden');
+    }
+
+    function applyStockFilterFromModal(stockStatus) {
+      closeStockModal();
+      document.getElementById('filter-stock-public').value = stockStatus;
+      renderCatalog();
+      document.getElementById('katalog-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Koneksi WhatsApp Admin
+    function contactAdminWA(customMessage = '') {
+      const cleanNumber = waConfig.number.replace(/[^0-9]/g, '').replace(/^0/, '62');
+      const defaultMsg = `Halo ${waConfig.name} (Kaltim Cars - Kaltim Car Solution), saya ingin bertanya informasi harga OTR Samarinda & ketersediaan unit mobil.`;
+      const text = encodeURIComponent(customMessage || defaultMsg);
+      window.open(`https://wa.me/${cleanNumber}?text=${text}`, '_blank');
+    }
+
+    function askUnitWA(carId) {
+      const car = cars.find(c => c.id === carId);
+      if (!car) return;
+      const msg = `Halo ${waConfig.name} (Kaltim Cars), saya tertarik dengan unit *${car.name}* (${car.brand} - Harga OTR Samarinda: ${formatRupiah(car.price)}, Status: ${car.stock}). Mohon info promo & ketersediaan warnanya.`;
+      contactAdminWA(msg);
+    }
+
+    // Filter Merek
+    function filterBrand(brand) {
+      currentFilter = brand;
+      document.querySelectorAll('.brand-filter').forEach(btn => {
+        const isActive = btn.dataset.brand === brand;
+        btn.className = isActive
+          ? 'brand-filter px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-900 text-white transition'
+          : 'brand-filter px-3 py-1.5 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 transition';
+      });
+      renderCatalog();
+    }
+
+    // Render Katalog Publik
+    function renderCatalog() {
+      const grid = document.getElementById('car-grid');
+      const query = (document.getElementById('search-car')?.value || '').toLowerCase();
+      const stockFilter = document.getElementById('filter-stock-public')?.value || 'ALL';
+
+      const filtered = cars.filter(c => {
+        const matchBrand = currentFilter === 'ALL' || c.brand === currentFilter;
+        const matchStock = stockFilter === 'ALL' || c.stock === stockFilter;
+        const matchQuery = c.name.toLowerCase().includes(query) || c.brand.toLowerCase().includes(query) || c.category.toLowerCase().includes(query);
+        return matchBrand && matchStock && matchQuery;
+      });
+
+      if (!filtered.length) {
+        grid.innerHTML = `<div class="col-span-full bg-white rounded-2xl border border-slate-200 p-10 text-center text-slate-500 text-sm">Unit mobil tidak ditemukan untuk filter pencarian saat ini.</div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(car => {
+        const estCicilan = Math.round((car.price * 0.8 * 1.325) / 60);
+        return `
+          <div class="bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-sm hover:shadow-xl transition flex flex-col justify-between group">
+            <div>
+              <div class="relative h-52 bg-slate-900 overflow-hidden">
+                <img src="${car.image || fallbackCarImg}" alt="${car.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/25 pointer-events-none"></div>
+
+                <div class="absolute top-3 left-3 flex gap-1.5">
+                  <span class="px-2.5 py-1 text-[11px] font-extrabold uppercase rounded-lg shadow ${car.brand === 'Honda' ? 'bg-red-600 text-white' : 'bg-blue-600 text-white'}">${car.brand}</span>
+                  <span class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-slate-900/80 text-white backdrop-blur-xs">${car.category}</span>
+                </div>
+
+                <span class="absolute bottom-3 right-3 px-2.5 py-1 text-[11px] font-bold rounded-lg shadow ${car.stock === 'Ready Stock' ? 'bg-emerald-500 text-white' : 'bg-amber-500 text-slate-950'}">
+                  ${car.stock}
+                </span>
+              </div>
+
+              <div class="p-5">
+                <div class="text-[11px] font-bold uppercase tracking-wider ${car.brand === 'Honda' ? 'text-red-600' : 'text-blue-600'}">${car.brand}</div>
+                <h3 class="text-lg font-extrabold text-slate-900 leading-snug mt-0.5">${car.name}</h3>
+                <div class="mt-3 flex items-baseline justify-between">
+                  <div>
+                    <div class="text-[11px] font-semibold text-slate-400 uppercase">Harga OTR Samarinda</div>
+                    <div class="text-xl font-extrabold text-slate-900">${formatRupiah(car.price)}</div>
+                  </div>
+                </div>
+                <div class="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+                  <span class="text-slate-500">Est. Cicilan ~${formatRupiah(estCicilan)}/bln</span>
+                  <button onclick="openSimModal(${car.id})" class="text-red-600 font-bold hover:underline">Simulasi Kredit</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="px-5 pb-5 grid grid-cols-2 gap-2">
+              <button onclick="askUnitWA(${car.id})" class="py-2.5 px-3 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1">
+                <span>Tanya WA</span>
+              </button>
+              <button onclick="openOrderModal(${car.id})" class="py-2.5 px-3 bg-slate-900 hover:bg-red-600 text-white text-xs font-bold rounded-xl transition">
+                Pesan SPK
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Render Back Office
+    function renderBackOffice() {
+      const hondaCount = cars.filter(c => c.brand === 'Honda').length;
+      const toyotaCount = cars.filter(c => c.brand === 'Toyota').length;
+      const newOrderCount = orders.filter(o => o.status === 'Baru Masuk').length;
+      const totalRevenue = orders.filter(o => o.status !== 'Batal').reduce((sum, o) => sum + (o.price || 0), 0);
+
+      document.getElementById('stat-cars').innerText = cars.length;
+      document.getElementById('stat-brand-split').innerText = `${hondaCount} Honda • ${toyotaCount} Toyota`;
+      document.getElementById('stat-orders').innerText = orders.length;
+      document.getElementById('stat-new-orders').innerText = `${newOrderCount} Pesanan Baru`;
+      document.getElementById('stat-revenue').innerText = formatRupiah(totalRevenue);
+      document.getElementById('stat-wa-name').innerText = waConfig.name;
+      document.getElementById('stat-wa-number').innerText = waConfig.number;
+
+      const badge = document.getElementById('badge-new-orders');
+      badge.innerText = newOrderCount;
+      badge.classList.toggle('hidden', newOrderCount === 0);
+
+      const lockIcon = document.getElementById('lock-icon');
+      lockIcon.classList.toggle('text-emerald-400', isBackOfficeAuthenticated);
+      lockIcon.classList.toggle('text-amber-400', !isBackOfficeAuthenticated);
+
+      const statusFilter = document.getElementById('filter-order-status')?.value || 'ALL';
+      const filteredOrders = statusFilter === 'ALL' ? orders : orders.filter(o => o.status === statusFilter);
+
+      document.getElementById('order-table-body').innerHTML = filteredOrders.length ? filteredOrders.map(o => {
+        const realIdx = orders.findIndex(item => item.code === o.code);
+        const custWaPhone = o.phone.replace(/[^0-9]/g, '').replace(/^0/, '62');
+        const followUpText = encodeURIComponent(`Halo Bapak/Ibu ${o.name}, saya ${waConfig.name} dari Kaltim Cars (Kaltim Car Solution). Menindaklanjuti pemesanan SPK ${o.code} untuk unit ${o.carName} (${o.color}).`);
+
+        return `
+          <tr class="hover:bg-slate-50/80">
+            <td class="px-4 py-3.5">
+              <div class="font-bold text-xs text-slate-900">${o.code}</div>
+              <div class="text-[11px] text-slate-400">${o.date}</div>
+            </td>
+            <td class="px-4 py-3.5">
+              <div class="font-bold text-slate-900">${o.name}</div>
+              <div class="text-xs text-slate-500">${o.phone} • ${o.address}</div>
+              ${o.notes ? `<div class="text-[11px] text-amber-700 mt-0.5">Catatan: ${o.notes}</div>` : ''}
+            </td>
+            <td class="px-4 py-3.5">
+              <div class="font-bold text-slate-900">${o.carName}</div>
+              <div class="text-xs text-slate-500">${o.color} • ${formatRupiah(o.price)}</div>
+            </td>
+            <td class="px-4 py-3.5 text-xs font-semibold">${o.payment}</td>
+            <td class="px-4 py-3.5">
+              <select onchange="updateOrderStatus(${realIdx}, this.value)" class="border border-slate-300 rounded-lg px-2.5 py-1 text-xs font-semibold bg-white">
+                <option ${o.status === 'Baru Masuk' ? 'selected' : ''}>Baru Masuk</option>
+                <option ${o.status === 'Follow-up Sales' ? 'selected' : ''}>Follow-up Sales</option>
+                <option ${o.status === 'Proses Leasing' ? 'selected' : ''}>Proses Leasing</option>
+                <option ${o.status === 'SPK Deal' ? 'selected' : ''}>SPK Deal</option>
+                <option ${o.status === 'Selesai / Delivery' ? 'selected' : ''}>Selesai / Delivery</option>
+                <option ${o.status === 'Batal' ? 'selected' : ''}>Batal</option>
+              </select>
+            </td>
+            <td class="px-4 py-3.5 text-right space-x-2">
+              <a href="https://wa.me/${custWaPhone}?text=${followUpText}" target="_blank" class="inline-block px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-lg">
+                Follow-up WA
+              </a>
+              <button onclick="deleteOrder(${realIdx})" class="text-xs text-red-600 hover:underline font-semibold">Hapus</button>
+            </td>
+          </tr>
+        `;
+      }).join('') : `<tr><td colspan="6" class="px-4 py-8 text-center text-slate-400 text-xs">Belum ada data pemesanan SPK pada kategori ini.</td></tr>`;
+
+      document.getElementById('car-table-body').innerHTML = cars.map(c => `
+        <tr class="hover:bg-slate-50/80">
+          <td class="px-4 py-3 flex items-center gap-3">
+            <img src="${c.image || fallbackCarImg}" alt="${c.name}" class="w-16 h-11 object-cover rounded-lg border border-slate-200" />
+            <span class="font-bold text-slate-900">${c.name}</span>
+          </td>
+          <td class="px-4 py-3 text-xs">
+            <span class="font-bold ${c.brand === 'Honda' ? 'text-red-600' : 'text-blue-600'}">${c.brand}</span> • ${c.category}
+          </td>
+          <td class="px-4 py-3 font-bold text-slate-900">${formatRupiah(c.price)}</td>
+          <td class="px-4 py-3">
+            <span class="px-2 py-0.5 text-[11px] font-bold rounded ${c.stock === 'Ready Stock' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-800'}">${c.stock}</span>
+          </td>
+          <td class="px-4 py-3 text-right space-x-2">
+            <button onclick="openCarFormModal(${c.id})" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold rounded-lg">Edit</button>
+            <button onclick="deleteCar(${c.id})" class="text-xs text-red-600 hover:underline font-semibold">Hapus</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // Modal Pemesanan SPK
+    function openOrderModal(carId) {
+      const car = cars.find(c => c.id === carId);
+      if (!car) return;
+      document.getElementById('order-car-id').value = car.id;
+      document.getElementById('modal-car-title').innerText = `${car.name} — ${formatRupiah(car.price)}`;
+      document.getElementById('order-modal').classList.remove('hidden');
+    }
+
+    function closeOrderModal() {
+      document.getElementById('order-modal').classList.add('hidden');
+    }
+
+    function submitOrder(e, redirectWA = false) {
+      if (e) e.preventDefault();
+      const form = document.getElementById('order-form');
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const car = cars.find(c => c.id == document.getElementById('order-car-id').value);
+      const orderCode = 'SPK-' + String(Date.now()).slice(-6);
+      const newOrder = {
+        code: orderCode,
+        date: new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }),
+        carName: car.name,
+        price: car.price,
+        name: document.getElementById('cust-name').value.trim(),
+        phone: document.getElementById('cust-phone').value.trim(),
+        address: document.getElementById('cust-address').value.trim(),
+        color: document.getElementById('cust-color').value,
+        payment: document.getElementById('cust-payment').value,
+        notes: document.getElementById('cust-notes').value.trim(),
+        status: 'Baru Masuk'
+      };
+
+      orders.unshift(newOrder);
+      form.reset();
+      closeOrderModal();
+      persistState();
+
+      if (redirectWA) {
+        const waMsg = `Halo ${waConfig.name} (Kaltim Cars), saya baru saja mengisi SPK Online:\n• Kode: *${newOrder.code}*\n• Nama: ${newOrder.name}\n• Unit: *${newOrder.carName}* (${newOrder.color})\n• Pembayaran: ${newOrder.payment}\n• Domisili: ${newOrder.address}\nMohon dibantu proses selanjutnya.`;
+        contactAdminWA(waMsg);
+      } else {
+        alert(`Pemesanan berhasil tercatat dengan kode ${orderCode}. Tim Kaltim Cars akan segera menghubungi Anda.`);
+      }
+    }
+
+    function submitOrderAndWA() {
+      submitOrder(null, true);
+    }
+
+    function updateOrderStatus(idx, status) {
+      if (orders[idx]) {
+        orders[idx].status = status;
+        persistState();
+      }
+    }
+
+    function deleteOrder(idx) {
+      if (confirm('Hapus data pesanan ini dari sistem Back Office?')) {
+        orders.splice(idx, 1);
+        persistState();
+      }
+    }
+
+    // Modal Kalkulator Kredit Lengkap
+    function openSimModal(carId = null) {
+      const selectEl = document.getElementById('sim-car-select');
+      selectEl.innerHTML = cars.map(c => `<option value="${c.id}">${c.name} — ${formatRupiah(c.price)}</option>`).join('') +
+        `<option value="CUSTOM">-- Input Harga Mobil Manual --</option>`;
+
+      const selectedCar = carId ? cars.find(c => c.id === carId) : cars[0];
+      if (selectedCar) {
+        selectEl.value = selectedCar.id;
+        document.getElementById('sim-price').value = selectedCar.price;
+      } else {
+        selectEl.value = 'CUSTOM';
+        document.getElementById('sim-price').value = 250000000;
+      }
+
+      calculateSimulation();
+      document.getElementById('sim-modal').classList.remove('hidden');
+    }
+
+    function onSimCarChange() {
+      const val = document.getElementById('sim-car-select').value;
+      if (val !== 'CUSTOM') {
+        const car = cars.find(c => c.id == val);
+        if (car) document.getElementById('sim-price').value = car.price;
+      }
+      calculateSimulation();
+    }
+
+    function closeSimModal() {
+      document.getElementById('sim-modal').classList.add('hidden');
+    }
+
+    function calculateSimulation() {
+      const price = Math.max(0, Number(document.getElementById('sim-price').value) || 0);
+      const dpPercent = Number(document.getElementById('sim-dp-range').value);
+      const tenorYears = Number(document.getElementById('sim-tenor').value);
+      const ratePercent = Math.max(0, Number(document.getElementById('sim-rate').value) || 0);
+
+      const dpNominal = price * (dpPercent / 100);
+      const principal = price - dpNominal;
+      const totalLoan = principal + (principal * (ratePercent / 100) * tenorYears);
+      const monthly = Math.round(totalLoan / (tenorYears * 12));
+
+      document.getElementById('sim-dp-percent').innerText = `${dpPercent}%`;
+      document.getElementById('sim-dp-nominal').innerText = formatRupiah(dpNominal);
+      document.getElementById('sim-principal').innerText = formatRupiah(principal);
+      document.getElementById('sim-monthly').innerText = formatRupiah(monthly);
+    }
+
+    function askSimViaWA() {
+      const selectEl = document.getElementById('sim-car-select');
+      const unitLabel = selectEl.value === 'CUSTOM' ? 'Unit Pilihan' : selectEl.options[selectEl.selectedIndex].text.split(' — ')[0];
+      const price = Number(document.getElementById('sim-price').value) || 0;
+      const dpPercent = document.getElementById('sim-dp-range').value;
+      const dpNominal = document.getElementById('sim-dp-nominal').innerText;
+      const tenor = document.getElementById('sim-tenor').value;
+      const monthly = document.getElementById('sim-monthly').innerText;
+
+      const msg = `Halo ${waConfig.name} (Kaltim Cars), saya menghitung simulasi kredit pada Kalkulator Kredit:\n• Unit: *${unitLabel}*\n• Harga OTR: ${formatRupiah(price)}\n• DP (${dpPercent}%): ${dpNominal}\n• Tenor: ${tenor} Tahun\n• Est. Angsuran: *${monthly}/bln*\nMohon info rincian paket kredit resminya.`;
+      contactAdminWA(msg);
+    }
+
+    // Modal Edit / Tambah Thumbnail Produk (Back Office)
+    function openCarFormModal(carId = null) {
+      const car = carId ? cars.find(c => c.id === carId) : null;
+      const imgUrl = car ? (car.image || fallbackCarImg) : fallbackCarImg;
+
+      document.getElementById('car-modal-title').innerText = car ? 'Edit Thumbnail & Data Produk' : 'Tambah Produk Kendaraan Baru';
+      document.getElementById('edit-car-id').value = car ? car.id : '';
+      document.getElementById('car-brand').value = car ? car.brand : 'Honda';
+      document.getElementById('car-category').value = car ? car.category : 'SUV';
+      document.getElementById('car-name').value = car ? car.name : '';
+      document.getElementById('car-price').value = car ? car.price : '';
+      document.getElementById('car-stock').value = car ? car.stock : 'Ready Stock';
+      document.getElementById('car-image-url').value = car ? (car.image || '') : '';
+      document.getElementById('car-preview-img').src = imgUrl;
+      document.getElementById('car-file-input').value = '';
+      document.getElementById('car-form-modal').classList.remove('hidden');
+    }
+
+    function closeCarFormModal() {
+      document.getElementById('car-form-modal').classList.add('hidden');
+    }
+
+    function updatePreviewFromUrl(url) {
+      const trimmed = url.trim();
+      document.getElementById('car-preview-img').src = trimmed || fallbackCarImg;
+    }
+
+    function handleCarImageUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const maxWidth = 800;
+          const scale = Math.min(1, maxWidth / img.width);
+          canvas.width = img.width * scale;
+          canvas.height = img.height * scale;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.82);
+
+          document.getElementById('car-image-url').value = compressedDataUrl;
+          document.getElementById('car-preview-img').src = compressedDataUrl;
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function submitCarForm(e) {
+      e.preventDefault();
+      const editId = document.getElementById('edit-car-id').value;
+      const payload = {
+        id: editId ? Number(editId) : Date.now(),
+        brand: document.getElementById('car-brand').value,
+        category: document.getElementById('car-category').value,
+        name: document.getElementById('car-name').value.trim(),
+        price: Number(document.getElementById('car-price').value),
+        stock: document.getElementById('car-stock').value,
+        image: document.getElementById('car-image-url').value.trim() || fallbackCarImg
+      };
+
+      if (editId) {
+        const idx = cars.findIndex(c => c.id === Number(editId));
+        if (idx !== -1) cars[idx] = payload;
+      } else {
+        cars.unshift(payload);
+      }
+
+      closeCarFormModal();
+      persistState();
+    }
+
+    function deleteCar(id) {
+      if (confirm('Hapus unit mobil ini dari katalog?')) {
+        cars = cars.filter(c => c.id !== id);
+        persistState();
+      }
+    }
+
+    // Pengaturan WA Admin
+    function openWaSettingsModal() {
+      document.getElementById('input-wa-name').value = waConfig.name;
+      document.getElementById('input-wa-number').value = waConfig.number;
+      document.getElementById('wa-settings-modal').classList.remove('hidden');
+    }
+
+    function closeWaSettingsModal() {
+      document.getElementById('wa-settings-modal').classList.add('hidden');
+    }
+
+    function saveWaSettings(e) {
+      e.preventDefault();
+      waConfig = {
+        name: document.getElementById('input-wa-name').value.trim(),
+        number: document.getElementById('input-wa-number').value.trim()
+      };
+      closeWaSettingsModal();
+      persistState();
+      alert('Kontak WhatsApp Admin berhasil diperbarui.');
+    }
+
+    // Pengaturan Banner Kustom
+    function openBannerModal() {
+      document.getElementById('banner-modal').classList.remove('hidden');
+    }
+
+    function closeBannerModal() {
+      document.getElementById('banner-modal').classList.add('hidden');
+    }
+
+    function handleBannerUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        customBanner = e.target.result;
+        localStorage.setItem('kaltim_cars_banner', customBanner);
+        applyBanner();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function resetBanner() {
+      customBanner = '';
+      localStorage.removeItem('kaltim_cars_banner');
+      applyBanner();
+    }
+
+    function applyBanner() {
+      const bgEl = document.getElementById('custom-banner-bg');
+      if (customBanner) {
+        bgEl.style.backgroundImage = `url('${customBanner}')`;
+        bgEl.classList.remove('hidden');
+      } else {
+        bgEl.style.backgroundImage = '';
+        bgEl.classList.add('hidden');
+      }
+    }
+
+    // Export Laporan CSV
+    function exportOrdersCSV() {
+      if (!orders.length) {
+        alert('Belum ada data pesanan SPK untuk di-export.');
+        return;
+      }
+      const headers = ['Kode SPK', 'Tanggal', 'Nama Pemesan', 'No WhatsApp', 'Alamat', 'Unit Mobil', 'Warna', 'Harga OTR', 'Pembayaran', 'Status', 'Catatan'];
+      const rows = orders.map(o => [
+        o.code, o.date, `"${o.name}"`, o.phone, `"${o.address}"`, `"${o.carName}"`, o.color, o.price, o.payment, o.status, `"${o.notes || ''}"`
+      ]);
+      const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+      const link = document.createElement('a');
+      link.setAttribute('href', encodeURI(csvContent));
+      link.setAttribute('download', 'kaltim_cars_orders.csv');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function renderAll() {
+      applyBanner();
+      renderCatalog();
+      renderBackOffice();
+    }
+
+    renderAll();
+  </script>
+</body>
+</html>
